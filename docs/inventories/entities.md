@@ -13,7 +13,7 @@
 | local WebSocket endpoint          | local transport              | Localhost WebSocket surface used to reach the local runtime                                                           | `/service/cryptapi`                                                            | preferred         | [RFC-0002](../rfc/RFC-0002-local-bridge.md)                       |
 | browser wrapper                   | browser/local                | Browser-side JavaScript wrapper that formats and sends local requests                                                 | `CAPIWS`, `EIMZOEXT`, local bridge wrapper                                     | preferred         | [RFC-0002](../rfc/RFC-0002-local-bridge.md)                       |
 | plugin / module family            | local API surface            | Named local module group whose methods vary by version                                                                | plugin, module, family; `pkcs7`, `pfx`, `idcard`, `ytks`, `x509`, `truststore` | preferred         | [RFC-0002](../rfc/RFC-0002-local-bridge.md)                       |
-| challenge field                   | server / mobile              | Signing input returned by challenge-oriented flows                                                                    | `challenge`, `challange`                                                       | ambiguous         | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md)       |
+| challenge field                   | server / mobile              | Editorial label for the signing input returned by challenge-oriented flows; concrete payloads preserve the observed field spelling                  | `challenge`, `challange`                                                       | preferred         | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md)       |
 | key handle                        | local                        | Editorial label for a loaded-key reference reused in later local calls                                                | key reference, runtime handle; `keyId`, `pfxId`, `tokenId`, `ytksId`           | version-sensitive | [RFC-0002](../rfc/RFC-0002-local-bridge.md)                       |
 | local PKCS#7 payload              | local / cross-layer          | Base64 PKCS#7 material produced by local signing before later timestamp/verify steps                                  | `pkcs7`, local PKCS#7, `pkcs7_64`                                              | version-sensitive | [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md)   |
 | server PKCS#7 payload variant     | server REST                  | Base64 PKCS#7 field used in server-side timestamp/verification materials                                              | `pkcs7b64`                                                                     | version-sensitive | [RFC-0004](../rfc/RFC-0004-verification-timestamp-certificate.md) |
@@ -28,7 +28,7 @@
 
 ## Entity drift notes
 
-- `challenge` and `challange` should remain visibly distinct until broader fixture evidence proves equivalence safely.
+- Use editorial `challenge field` or `challenge value` for the concept, but preserve literal `challenge` or `challange` when quoting observed payloads.
 - Local key handles are clearly important, but field names remain plugin- and version-specific.
 - `pkcs7`, `pkcs7_64`, and `pkcs7b64` appear related while still carrying layer-specific naming drift.
 - `siteId`, `documentId`, and generic request identifiers should not be collapsed into one mobile correlation model yet.

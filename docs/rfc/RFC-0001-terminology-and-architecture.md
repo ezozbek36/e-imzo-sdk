@@ -47,16 +47,16 @@
 
 ### Canonical terminology
 
-| Tag             | Canonical term                  | Source aliases                           | Layer         | Notes                                                                                           |
-| --------------- | ------------------------------- | ---------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------- |
-| [NORMALIZED]    | Local WebSocket endpoint        | `/service/cryptapi`                      | Local         | Endpoint exposed on localhost by local E-IMZO runtime.                                          |
-| [NORMALIZED]    | Local bridge wrapper            | `CAPIWS`, `EIMZOEXT`                     | Local         | Browser-side JS wrapper used to call local endpoint/modules.                                    |
-| [NORMALIZED]    | Frontend endpoint family        | `/frontend/*`                            | Server        | Documented as callable from frontend/backend depending on method.                               |
-| [NORMALIZED]    | Backend endpoint family         | `/backend/*`                             | Server        | Documented as backend-only by policy.                                                           |
-| [NORMALIZED]    | Mobile upload callback route    | `/frontend/mobile/upload` (`UPLOAD URL`) | Mobile/server | Callback route associated with onboarding `siteId`/`SiteID`.                                    |
-| [NORMALIZED]    | Challenge field                 | `challenge`, `challange`                 | Server/mobile | Spelling is inconsistent in source materials; this RFC set keeps both spellings visible.        |
-| [NORMALIZED]    | Local key handle field variants | `keyId`, `pfxId`, `tokenId`, `ytksId`    | Local         | Field naming is plugin/version-specific; equivalence is treated as observed-but-non-uniform.    |
-| [OPEN QUESTION] | PKCS#7 base64 field variants    | `pkcs7b64`, `pkcs7_64`                   | Cross-plane   | Similar intent appears in sources, but canonical equivalence across all versions is not proven. |
+| Tag             | Canonical term                  | Source aliases                           | Layer         | Notes                                                                                                                                                                                                                   |
+| --------------- | ------------------------------- | ---------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [NORMALIZED]    | Local WebSocket endpoint        | `/service/cryptapi`                      | Local         | Endpoint exposed on localhost by local E-IMZO runtime.                                                                                                                                                                  |
+| [NORMALIZED]    | Local bridge wrapper            | `CAPIWS`, `EIMZOEXT`                     | Local         | Browser-side JS wrapper used to call local endpoint/modules.                                                                                                                                                            |
+| [NORMALIZED]    | Frontend endpoint family        | `/frontend/*`                            | Server        | Documented as callable from frontend/backend depending on method.                                                                                                                                                       |
+| [NORMALIZED]    | Backend endpoint family         | `/backend/*`                             | Server        | Documented as backend-only by policy.                                                                                                                                                                                   |
+| [NORMALIZED]    | Mobile upload callback route    | `/frontend/mobile/upload` (`UPLOAD URL`) | Mobile/server | Callback route associated with onboarding `siteId`/`SiteID`.                                                                                                                                                            |
+| [NORMALIZED]    | Challenge field / value         | `challenge`, `challange`                 | Server/mobile | Reviewed desktop and mobile auth-init sources use the same signing-input role with inconsistent spelling; this RFC uses editorial `challenge`/`challenge value` while preserving literal payload spellings in examples. |
+| [NORMALIZED]    | Local key handle field variants | `keyId`, `pfxId`, `tokenId`, `ytksId`    | Local         | Field naming is plugin/version-specific; equivalence is treated as observed-but-non-uniform.                                                                                                                            |
+| [OPEN QUESTION] | PKCS#7 base64 field variants    | `pkcs7b64`, `pkcs7_64`                   | Cross-plane   | Similar intent appears in sources, but canonical equivalence across all versions is not proven.                                                                                                                         |
 
 ### Actors
 
@@ -120,7 +120,7 @@
 ## Risk of incorrect assumptions
 
 - [OPEN QUESTION] Assuming manual API-key bootstrap is universal despite v6 auto-load notes.
-- [OPEN QUESTION] Assuming one uniform challenge field spelling and shape.
+- [OBSERVED] Assuming one literal challenge field spelling across desktop and mobile payloads; reviewed sources show `challenge` and `challange`.
 - [OPEN QUESTION] Assuming local plugin surfaces are stable across app versions.
 - [OPEN QUESTION] Treating the current RFC partition as fixed architecture rather than editorial organization.
 

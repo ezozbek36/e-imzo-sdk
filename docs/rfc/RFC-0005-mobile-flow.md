@@ -55,16 +55,16 @@
 
 ### Observed mobile actors and identifiers
 
-| Tag             | Item                                        | Description                                                                                                          |
-| --------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| [OBSERVED]      | Frontend app/site                           | Initiates auth/sign, generates QR/deeplink payload, polls status.                                                    |
-| [OBSERVED]      | Mobile signing client                       | Consumes deeplink/QR payload and triggers signature flow with ID-card on mobile side.                                |
-| [OBSERVED]      | Mobile upload callback sender               | Uploads PKCS#7 to configured upload URL.                                                                             |
-| [OPEN QUESTION] | Mobile actor split (`client` vs `uploader`) | Sources separate these responsibilities in wording, but may describe one deployed component path.                    |
-| [OBSERVED]      | App backend                                 | Calls `/backend/mobile/authenticate/{documentId}` or `/backend/mobile/verify`.                                       |
-| [OBSERVED]      | `siteId`                                    | Correlates onboarding/site configuration.                                                                            |
-| [OBSERVED]      | `documentId`                                | Correlation key for polling/finalization.                                                                            |
-| [OBSERVED]      | Challenge field (`challenge`/`challange`)   | Auth signing input; spelling conflict exists across sources.                                                         |
+| Tag             | Item                                              | Description                                                                                                                |
+| --------------- | --------------------------------------------------| ---------------------------------------------------------------------------------------------------------------------------|
+| [OBSERVED]      | Frontend app/site                                 | Initiates auth/sign, generates QR/deeplink payload, polls status.                                                          |
+| [OBSERVED]      | Mobile signing client                             | Consumes deeplink/QR payload and triggers signature flow with ID-card on mobile side.                                      |
+| [OBSERVED]      | Mobile upload callback sender                     | Uploads PKCS#7 to configured upload URL.                                                                                   |
+| [OPEN QUESTION] | Mobile actor split (`client` vs `uploader`)       | Sources separate these responsibilities in wording, but may describe one deployed component path.                          |
+| [OBSERVED]      | App backend                                       | Calls `/backend/mobile/authenticate/{documentId}` or `/backend/mobile/verify`.                                             |
+| [OBSERVED]      | `siteId`                                          | Correlates onboarding/site configuration.                                                                                  |
+| [OBSERVED]      | `documentId`                                      | Correlation key for polling/finalization.                                                                                  |
+| [OBSERVED]      | Challenge value field (`challenge`/`challange`)   | Auth signing input; reviewed mobile examples use literal `challange`, while prose also uses `challenge` for the same role. |
 
 ### Lifecycle/state transitions
 
@@ -89,12 +89,12 @@
 
 ### Ambiguities and missing guarantees
 
-| Tag             | Ambiguity                                                                                      |
-| --------------- | ---------------------------------------------------------------------------------------------- |
-| [OPEN QUESTION] | Formal callback authentication/integrity model for `/frontend/mobile/upload` is not specified. |
-| [OPEN QUESTION] | Canonical challenge field spelling/shape across mobile endpoints is inconsistent.              |
-| [OPEN QUESTION] | Record lifetime and finalization idempotency for `documentId` is not formally specified.       |
-| [OPEN QUESTION] | Several backend-mobile negative statuses map to “see logs” without explicit semantics.         |
+| Tag             | Ambiguity                                                                                                                                                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [OPEN QUESTION] | Formal callback authentication/integrity model for `/frontend/mobile/upload` is not specified.                                                                                                                                  |
+| [OBSERVED]      | Reviewed mobile auth-init sources use literal `challange` in concrete response fields while prose also says `challenge`; this RFC keeps the source spelling in payload examples and uses editorial `challenge value` otherwise. |
+| [OPEN QUESTION] | Record lifetime and finalization idempotency for `documentId` is not formally specified.                                                                                                                                        |
+| [OPEN QUESTION] | Several backend-mobile negative statuses map to “see logs” without explicit semantics.                                                                                                                                          |
 
 ### Proposed abstraction boundary
 
