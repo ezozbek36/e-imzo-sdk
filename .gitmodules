@@ -1,3 +1,3 @@
 [submodule "e-imzo-resources"]
-	path = e-imzo-resources
+	path = vendor/e-imzo-resources
 	url = ./e-imzo-resources

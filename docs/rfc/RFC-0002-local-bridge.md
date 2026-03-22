@@ -16,20 +16,20 @@
 
 ## Evidence base
 
-| Tag        | Source                                                                   | Why used                                                       |
-|------------|--------------------------------------------------------------------------|----------------------------------------------------------------|
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo.js`              | Local URL, request dispatch pattern, websocket error handling. |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-client.js`       | Version checks, key loading usage, plugin selection patterns.  |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-init.js`         | API-key bootstrap pattern and local failure messaging.         |
-| [OBSERVED] | `e-imzo-resources/apidoc/API.v-4.73.md`, `API.v-5.00.md`, `API.v-6.3.md` | Module families and argument-level surfaces.                   |
-| [OBSERVED] | `e-imzo-resources/apidoc/generate-apidoc.mjs`                            | `version`/`apidoc` request model and version binding logic.    |
+| Tag        | Source                                                                          | Why used                                                       |
+| ---------- | ------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo.js`              | Local URL, request dispatch pattern, websocket error handling. |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-client.js`       | Version checks, key loading usage, plugin selection patterns.  |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-init.js`         | API-key bootstrap pattern and local failure messaging.         |
+| [OBSERVED] | `vendor/e-imzo-resources/apidoc/API.v-4.73.md`, `API.v-5.00.md`, `API.v-6.3.md` | Module families and argument-level surfaces.                   |
+| [OBSERVED] | `vendor/e-imzo-resources/apidoc/generate-apidoc.mjs`                            | `version`/`apidoc` request model and version binding logic.    |
 
 ## Descriptive model
 
 ### Scope
 
 | Tag        | Covered                                                                                               |
-|------------|-------------------------------------------------------------------------------------------------------|
+| ---------- | ----------------------------------------------------------------------------------------------------- |
 | [OBSERVED] | Browser-to-local websocket invocation surface (`version`, `apidoc`, `apikey`, plugin function calls). |
 | [OBSERVED] | Local module family inventory and version drift.                                                      |
 | [OBSERVED] | Local key-handle loading/unloading behavior and observed assumptions.                                 |
@@ -38,14 +38,14 @@
 ### What this RFC excludes
 
 | Tag        | Excluded                                                                             |
-|------------|--------------------------------------------------------------------------------------|
+| ---------- | ------------------------------------------------------------------------------------ |
 | [OBSERVED] | Server REST semantics and business session logic.                                    |
 | [OBSERVED] | Mobile backend verification semantics except where they constrain local assumptions. |
 
 ### Observed API families/modules
 
 | Tag        | Family                 | v4.73            | v5.00            | v6.3                     | Notes                                                        |
-|------------|------------------------|------------------|------------------|--------------------------|--------------------------------------------------------------|
+| ---------- | ---------------------- | ---------------- | ---------------- | ------------------------ | ------------------------------------------------------------ |
 | [OBSERVED] | Core control           | wrapper mediated | wrapper mediated | wrapper mediated         | Wrapper calls `version`, `apidoc`, `apikey`, `callFunction`. |
 | [OBSERVED] | `pkcs7`                | broad helper set | broad helper set | `create_pkcs7` observed  | Strong drift; helper removal noted by migration docs.        |
 | [OBSERVED] | `pfx`                  | yes              | yes              | yes                      | `load_key`/`unload_key` and related functions persist.       |
@@ -58,7 +58,7 @@
 ### Request/response surface at descriptive level
 
 | Tag             | Aspect                 | Observed shape                                                                                            |
-|-----------------|------------------------|-----------------------------------------------------------------------------------------------------------|
+| --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------- |
 | [OBSERVED]      | Transport              | WebSocket to localhost endpoint chosen by page protocol (`ws` or `wss`).                                  |
 | [OBSERVED]      | Generic request        | JSON object with function name and optional plugin+arguments (wrapper-driven).                            |
 | [OBSERVED]      | Meta requests          | `{name:"version"}`, `{name:"apidoc"}`, `{name:"apikey", arguments:[domain,key,...]}`.                     |
@@ -68,7 +68,7 @@
 ### Handle/key loading behavior
 
 | Tag             | Behavior                                                                             | Evidence status                    |
-|-----------------|--------------------------------------------------------------------------------------|------------------------------------|
+| --------------- | ------------------------------------------------------------------------------------ | ---------------------------------- |
 | [OBSERVED]      | `load_key` returns runtime handle used in later calls (e.g., sign operations).       | Evidenced in apidoc and demo code. |
 | [OBSERVED]      | Handle naming is plugin-specific (`pfxId`, `tokenId`, `ytksId`, generic `id` usage). | Evidenced, non-uniform.            |
 | [OBSERVED]      | `unload_key` methods exist for relevant plugins in multiple versions.                | Evidenced.                         |
@@ -78,7 +78,7 @@
 ### Lifetime/availability semantics
 
 | Tag             | Observation                                                                               |
-|-----------------|-------------------------------------------------------------------------------------------|
+| --------------- | ----------------------------------------------------------------------------------------- |
 | [OBSERVED]      | Local service must be installed and reachable on localhost websocket endpoint.            |
 | [OBSERVED]      | Browser websocket support is treated as prerequisite by demo init code.                   |
 | [OBSERVED]      | API-key domain setup is shown as bootstrap in manual/demo; v6 notes add auto-load nuance. |
@@ -87,7 +87,7 @@
 ### Plugin/service assumptions
 
 | Tag             | Assumption                                                                                |
-|-----------------|-------------------------------------------------------------------------------------------|
+| --------------- | ----------------------------------------------------------------------------------------- |
 | [OBSERVED]      | Local desktop runtime present and running.                                                |
 | [OBSERVED]      | Domain registration/API-key alignment with frontend origin remains required in FAQ notes. |
 | [OBSERVED]      | Mixed-version clients require explicit compatibility handling.                            |
@@ -96,7 +96,7 @@
 ### Local failure modes
 
 | Tag             | Class                                                                    | Surface                                                                      |
-|-----------------|--------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| --------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------- |
 | [OBSERVED]      | Transport capability                                                     | Browser lacks WebSocket support.                                             |
 | [OBSERVED]      | Service connectivity                                                     | WebSocket connect/close failure; non-1000 close codes surfaced.              |
 | [OBSERVED]      | Runtime processing                                                       | `data.success=false` with textual `reason`.                                  |
@@ -106,7 +106,7 @@
 ### Proposed abstraction boundary
 
 | Tag                    | Boundary                                                                                                                                              |
-|------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [PROPOSED ABSTRACTION] | Define a descriptive `LocalBridgeEnvelope` (`transport`, `request`, `response`, `runtime_error`) without asserting stable method set across versions. |
 | [PROPOSED ABSTRACTION] | Treat plugin families as versioned capability flags, not hardcoded invariants.                                                                        |
 

@@ -1,3 +1,5 @@
+# AGENTS.md
+
 ## Project
 
 This repository supports a clean-room documentation and specification effort for E-IMZO integrations.
@@ -62,6 +64,7 @@ This project is not:
 When analyzing repository contents, treat sources with different confidence levels.
 
 ### Highest-confidence sources
+
 Use these first for observable surface area:
 
 1. Generated API documentation
@@ -70,12 +73,14 @@ Use these first for observable surface area:
 4. Structured operational notes / troubleshooting notes
 
 ### Interpretation rule
+
 - Generated API docs are strong evidence for names and surfaced operations.
 - Demos are strong evidence for real integration flows.
 - Manuals are useful but may be incomplete or ambiguous.
 - Knowledge-base notes are useful for operational behavior and edge cases, but may be informal.
 
 Agents must explicitly distinguish:
+
 - **fact**
 - **inference**
 - **unknown**
@@ -88,16 +93,20 @@ Agents must explicitly distinguish:
 Every substantial output must separate the following layers:
 
 ### 1. Observed behavior
+
 What is directly evidenced by repository materials.
 
 ### 2. Normalized terminology
+
 A cleaned-up vocabulary that maps aliases and inconsistent naming to canonical terms.
 
 ### 3. Proposed abstraction
+
 A future-facing internal model for SDK/spec design.
 This must be clearly labeled as proposed and must not be confused with source truth.
 
 ### 4. Unknowns / unresolved questions
+
 Details that remain underspecified or contradictory.
 
 Do not merge these layers.
@@ -117,6 +126,7 @@ Unless explicitly instructed otherwise, agents should produce outputs in markdow
   - `[CONFLICT]`
 
 For RFC drafts, use:
+
 - `[OBSERVED]`
 - `[NORMALIZED]`
 - `[OPEN QUESTION]`
@@ -129,7 +139,9 @@ For RFC drafts, use:
 Agents may contribute to one of the following workstreams:
 
 ### A. Source digestion
+
 Examples:
+
 - summarize source files
 - extract operations
 - extract entities
@@ -137,7 +149,9 @@ Examples:
 - build terminology maps
 
 ### B. Phase 1 outputs
+
 Examples:
+
 - domain model
 - actor model
 - capability inventory
@@ -145,7 +159,9 @@ Examples:
 - error surface inventory
 
 ### C. Phase 2 outputs
+
 Examples:
+
 - RFC-0001 Terminology and Architecture
 - RFC-0002 Local Bridge / Local Crypto Service
 - RFC-0003 Signing and Authentication Flows
@@ -154,14 +170,18 @@ Examples:
 - RFC-0006 Preliminary Error Model
 
 ### D. Validation scaffolding
+
 Examples:
+
 - conformance test ideas
 - fixture inventories
 - edge-case lists
 - compatibility matrix drafts
 
 ### E. Future implementation preparation
+
 Only after spec maturity:
+
 - reference API shape proposals
 - language-specific mapping notes
 - SDK package boundaries
@@ -193,6 +213,7 @@ Agents should normalize terminology carefully.
 
 Example:
 If sources use multiple names for the same idea, represent:
+
 - canonical term
 - source aliases
 - evidence
@@ -229,6 +250,7 @@ AI agents are allowed and encouraged to help with:
 - translating descriptive findings into future implementation notes
 
 AI agents must not be treated as authoritative for:
+
 - cryptographic correctness
 - undocumented protocol guarantees
 - legal/compliance conclusions
@@ -244,6 +266,7 @@ All AI-generated outputs should be reviewable against repository evidence.
 Unless explicitly requested, do not generate SDK implementation code.
 
 If code generation is requested later:
+
 - start with interfaces/types, not full business logic
 - prefer reference implementation over many ports at once
 - require conformance fixtures
@@ -277,11 +300,11 @@ Do not skip directly to SDK design.
 
 When contributing changes:
 
-* keep changes scoped
-* avoid mixing refactors with new analysis
-* explain what evidence the change is based on
-* note whether a statement is fact, inference, or open question
-* prefer additive documentation over destructive rewriting unless cleanup is requested
+- keep changes scoped
+- avoid mixing refactors with new analysis
+- explain what evidence the change is based on
+- note whether a statement is fact, inference, or open question
+- prefer additive documentation over destructive rewriting unless cleanup is requested
 
 ---
 
@@ -289,14 +312,14 @@ When contributing changes:
 
 Before finalizing any output, agents should verify:
 
-* Is every nontrivial statement evidence-backed?
-* Are facts and inferences clearly separated?
-* Are unknowns called out explicitly?
-* Are conflicts surfaced instead of silently resolved?
-* Is descriptive behavior separated from proposed abstraction?
-* Does the output avoid reverse-engineering language?
-* Does it avoid premature implementation detail?
-* Would a future SDK author be able to use this safely?
+- Is every nontrivial statement evidence-backed?
+- Are facts and inferences clearly separated?
+- Are unknowns called out explicitly?
+- Are conflicts surfaced instead of silently resolved?
+- Is descriptive behavior separated from proposed abstraction?
+- Does the output avoid reverse-engineering language?
+- Does it avoid premature implementation detail?
+- Would a future SDK author be able to use this safely?
 
 ---
 

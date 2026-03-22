@@ -16,19 +16,19 @@
 
 ## Evidence base
 
-| Tag        | Source                                                                                           | Why used                                         |
-|------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| [OBSERVED] | `Phase1.md`                                                                                      | Baseline error classes and contradictions.       |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/README.md`                                                          | Official status tables and HTTP transport notes. |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-init.js`, `e-imzo.js`                    | Local websocket/runtime error handling examples. |
-| [OBSERVED] | `e-imzo-resources/knowledge-base/troubleshooting.md`, `integration-faq.md`, `migration-guide.md` | Operational and migration-era failure patterns.  |
+| Tag        | Source                                                                                                  | Why used                                         |
+| ---------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------ |
+| [OBSERVED] | `docs/phases/phase-1/canonical.md`                                                                      | Baseline error classes and contradictions.       |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/README.md`                                                          | Official status tables and HTTP transport notes. |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/e-imzo-init.js`, `e-imzo.js`                    | Local websocket/runtime error handling examples. |
+| [OBSERVED] | `vendor/e-imzo-resources/knowledge-base/troubleshooting.md`, `integration-faq.md`, `migration-guide.md` | Operational and migration-era failure patterns.  |
 
 ## Descriptive model
 
 ### Observed failure classes
 
 | Tag        | Class                        | Examples                                                                                                                             |
-|------------|------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| ---------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | [OBSERVED] | Local transport/runtime      | Browser lacks WebSocket, localhost bridge unavailable, websocket close/error, wrong-password handling patterns.                      |
 | [OBSERVED] | HTTP transport-level         | Endpoint docs repeatedly call out HTTP 400 (bad request params) and HTTP 503 (server/log issue).                                     |
 | [OBSERVED] | Server validation-level      | `/backend/auth` and `/backend/pkcs7/verify/*` negative statuses (`-1`, `-5`, `-10`, `-11`, `-12`, `-20`, `-21`, `-22`, `-23`).       |
@@ -38,7 +38,7 @@
 ### Transport-level vs validation-level vs operational-level failures
 
 | Tag             | Partition                      | Evidence shape                                                                                                |
-|-----------------|--------------------------------|---------------------------------------------------------------------------------------------------------------|
+| --------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
 | [NORMALIZED]    | Transport                      | WebSocket connect/close, HTTP 400/503, connectivity to upstream services.                                     |
 | [NORMALIZED]    | Validation                     | Signature/certificate/time-window/status-table failures from backend/mobile verification APIs.                |
 | [NORMALIZED]    | Operational                    | Environment mismatch, outdated server package, proxy/header misconfiguration, onboarding/reachability issues. |
@@ -47,7 +47,7 @@
 ### Ambiguities
 
 | Tag             | Ambiguity                                                                                                |
-|-----------------|----------------------------------------------------------------------------------------------------------|
+| --------------- | -------------------------------------------------------------------------------------------------------- |
 | [OPEN QUESTION] | Some negative codes are generic “see logs” buckets, not semantically specific.                           |
 | [OPEN QUESTION] | Local runtime textual errors are not mapped to a stable numeric taxonomy in docs.                        |
 | [OPEN QUESTION] | Interactions between expiry semantics (`challenge` TTL vs mobile `documentId` lifetime) are not unified. |
@@ -55,7 +55,7 @@
 ### [PROPOSED ABSTRACTION] Preliminary normalized taxonomy
 
 | Tag                    | Proposed category   | Source-mapped examples                               | Notes                                                  |
-|------------------------|---------------------|------------------------------------------------------|--------------------------------------------------------|
+| ---------------------- | ------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
 | [PROPOSED ABSTRACTION] | `E.LOCAL.TRANSPORT` | websocket unavailable/closed, no local module        | Browser/local runtime channel failures.                |
 | [PROPOSED ABSTRACTION] | `E.LOCAL.RUNTIME`   | plugin call failed (`success=false`, `reason`)       | Local function execution/validation issues.            |
 | [PROPOSED ABSTRACTION] | `E.SERVER.HTTP`     | HTTP 400/503 from REST calls                         | Transport/protocol envelope failures.                  |

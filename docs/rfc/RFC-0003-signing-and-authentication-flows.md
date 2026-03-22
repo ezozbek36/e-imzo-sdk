@@ -16,29 +16,29 @@
 
 ## Evidence base
 
-| Tag        | Source                                                                      | Why used                                                      |
-|------------|-----------------------------------------------------------------------------|---------------------------------------------------------------|
-| [OBSERVED] | `Phase1.md`                                                                 | Consolidated flow findings and ambiguities.                   |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/README.md`                                     | Sequence narratives and endpoint behavior.                    |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/index.php`, `auth.php`     | Challenge-based auth example.                                 |
-| [OBSERVED] | `e-imzo-resources/e-imzo-doc/example.uz/php/demo/cabinet.php`, `verify.php` | Signing + timestamp + attached/detached verification example. |
-| [OBSERVED] | `e-imzo-resources/knowledge-base/migration-guide.md`                        | Multi-signer join and local-method deprecation notes.         |
+| Tag        | Source                                                                             | Why used                                                      |
+| ---------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| [OBSERVED] | `docs/phases/phase-1/canonical.md`                                                 | Consolidated flow findings and ambiguities.                   |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/README.md`                                     | Sequence narratives and endpoint behavior.                    |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/index.php`, `auth.php`     | Challenge-based auth example.                                 |
+| [OBSERVED] | `vendor/e-imzo-resources/e-imzo-doc/example.uz/php/demo/cabinet.php`, `verify.php` | Signing + timestamp + attached/detached verification example. |
+| [OBSERVED] | `vendor/e-imzo-resources/knowledge-base/migration-guide.md`                        | Multi-signer join and local-method deprecation notes.         |
 
 ## Descriptive model
 
 ### Signing-related flows evidenced by docs/demo
 
-| Tag        | Flow                                    | Evidence                                                                               |
-|------------|-----------------------------------------|----------------------------------------------------------------------------------------|
-| [OBSERVED] | Desktop challenge authentication        | `/frontend/challenge` -> local `create_pkcs7` -> `/backend/auth`.                      |
-| [OBSERVED] | Desktop document signing with timestamp | local `create_pkcs7` -> `/frontend/timestamp/pkcs7` -> `/backend/pkcs7/verify/*`.      |
-| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64\|pkcs7`. |
-| [OBSERVED] | Multi-signer composition guidance       | `/frontend/pkcs7/join` documented in migration guidance for combining signed payloads. |
+| Tag        | Flow                                    | Evidence                                                                               |         |
+| ---------- | --------------------------------------- | -------------------------------------------------------------------------------------- | ------- |
+| [OBSERVED] | Desktop challenge authentication        | `/frontend/challenge` -> local `create_pkcs7` -> `/backend/auth`.                      |         |
+| [OBSERVED] | Desktop document signing with timestamp | local `create_pkcs7` -> `/frontend/timestamp/pkcs7` -> `/backend/pkcs7/verify/*`.      |         |
+| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64\         | pkcs7`. |
+| [OBSERVED] | Multi-signer composition guidance       | `/frontend/pkcs7/join` documented in migration guidance for combining signed payloads. |         |
 
 ### Challenge-based authentication flow
 
 | Tag             | Step | Description                                                                                        |
-|-----------------|------|----------------------------------------------------------------------------------------------------|
+| --------------- | ---- | -------------------------------------------------------------------------------------------------- |
 | [OBSERVED]      | 1    | Browser calls `/frontend/challenge` and receives `challenge`, `ttl`, `status`.                     |
 | [OBSERVED]      | 2    | Browser/local bridge signs `challenge` using selected local key.                                   |
 | [OBSERVED]      | 3    | Backend relays PKCS#7 to `/backend/auth` with `Host` and `X-Real-IP`.                              |
@@ -48,7 +48,7 @@
 ### Artifacts produced/consumed
 
 | Tag             | Artifact                                     | Produced by                                        | Consumed by                                                     |
-|-----------------|----------------------------------------------|----------------------------------------------------|-----------------------------------------------------------------|
+| --------------- | -------------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------- |
 | [OBSERVED]      | `challenge` + `ttl`                          | `/frontend/challenge`                              | local signing call and `/backend/auth` validation path.         |
 | [OBSERVED]      | Local PKCS#7 (base64)                        | local `create_pkcs7`                               | `/backend/auth` or timestamp endpoint.                          |
 | [OBSERVED]      | Timestamped PKCS#7 (`pkcs7b64`)              | `/frontend/timestamp/pkcs7`                        | verification endpoints and app archive logic in demo narrative. |
@@ -58,7 +58,7 @@
 ### Boundaries between local signing and remote verification
 
 | Tag             | Boundary                                                        | Description                                                                              |
-|-----------------|-----------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| --------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | [OBSERVED]      | Local-only signing step                                         | Private-key operation and PKCS#7 creation occur in local runtime flow descriptions/demo. |
 | [OBSERVED]      | Server verification/timestamp step                              | Server endpoints perform timestamp attach and verification result formation.             |
 | [OBSERVED]      | Backend policy step                                             | Backend decides session/document acceptance based on status+payload.                     |
@@ -66,11 +66,11 @@
 
 ### Attached/detached distinctions
 
-| Tag             | Distinction                 | Evidence                                                                                   |
-|-----------------|-----------------------------|--------------------------------------------------------------------------------------------|
-| [OBSERVED]      | Attached                    | Verified via `/backend/pkcs7/verify/attached`; includes embedded document in result model. |
-| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64\|pkcs7`.    |
-| [OPEN QUESTION] | Detached sample consistency | Manual detached section has a conflicting curl URL example.                                |
+| Tag             | Distinction                 | Evidence                                                                                   |         |
+| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ | ------- |
+| [OBSERVED]      | Attached                    | Verified via `/backend/pkcs7/verify/attached`; includes embedded document in result model. |         |
+| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64\            | pkcs7`. |
+| [OPEN QUESTION] | Detached sample consistency | Manual detached section has a conflicting curl URL example.                                |         |
 
 ### Flow diagrams in text form
 
@@ -105,14 +105,14 @@ Result -> combined PKCS#7 with multiple signatures
 ### Proposed abstraction boundary
 
 | Tag                    | Boundary                                                                                                            |
-|------------------------|---------------------------------------------------------------------------------------------------------------------|
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | [PROPOSED ABSTRACTION] | Separate `AuthChallengeFlow` and `DocumentSignFlow` as distinct descriptive processes sharing local-sign primitive. |
 | [PROPOSED ABSTRACTION] | Model attached/detached as payload transport mode, not as separate cryptographic trust model.                       |
 
 ## Open questions
 
 | Tag             | Question                                                                                                    |
-|-----------------|-------------------------------------------------------------------------------------------------------------|
+| --------------- | ----------------------------------------------------------------------------------------------------------- |
 | [OPEN QUESTION] | Is challenge strictly single-use across all deployments or only implied by status `-20` and narrative text? |
 | [OPEN QUESTION] | How replay prevention is guaranteed beyond challenge lookup + expiry.                                       |
 | [OPEN QUESTION] | Idempotency guarantees for repeated verify/timestamp calls.                                                 |
