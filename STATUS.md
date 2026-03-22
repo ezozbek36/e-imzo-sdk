@@ -3,10 +3,17 @@
 ## Canonical
 
 - `docs/phases/phase-1/canonical.md`
+- `DISCLAIMER.md`
+- `LICENSE`
 
 ## Supporting
 
 - `docs/phases/phase-1/update-report.md`
+- `docs/inventories/glossary.md`
+- `docs/inventories/entities.md`
+- `docs/inventories/errors.md`
+- `docs/validation/open-questions.md`
+- `docs/research/open-questions/README.md`
 
 ## Draft
 
@@ -16,8 +23,6 @@
 - `docs/rfc/RFC-0004-verification-timestamp-certificate.md`
 - `docs/rfc/RFC-0005-mobile-flow.md`
 - `docs/rfc/RFC-0006-preliminary-error-model.md`
-- `docs/inventories/README.md`
-- `docs/validation/README.md`
 
 ## Archived
 
@@ -25,13 +30,11 @@
 
 ## In Progress
 
-- RFC draft consistency review (terminology, boundaries, open questions).
-- Inventory and validation sections moving from placeholders to structured content.
-- Repository-level spec stabilization for canonical vs draft separation.
+- Cross-RFC terminology and boundary consistency review (RFC-0001 through RFC-0006).
+- Open question resolution: Q-003 through Q-008 (`open` status in `docs/validation/open-questions.md`).
 
 ## Next
 
-- Keep Phase 1 canonical and supporting documents aligned.
-- Resolve cross-RFC inconsistencies and mark maturity per RFC.
-- Expand inventories and validation artifacts before implementation design.
-- Define initial reference boundary for future `sdk/` work.
+- Assign maturity labels per RFC (`draft` / `review` / `stable`).
+- Resolve or explicitly defer remaining open questions before `sdk/` boundary work.
+- Define initial reference boundary for `sdk/`.

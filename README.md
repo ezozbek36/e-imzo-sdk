@@ -5,42 +5,51 @@
 
 # e-imzo-sdk
 
-`e-imzo-sdk` is a specification-first repository for documenting observed E-IMZO integration behavior and preparing a stable foundation for future SDK implementations. The repository name is intentional: the SDK is the destination, while this phase focuses on building the specification layer first.
+`e-imzo-sdk` is an independent, community-driven specification effort for E-IMZO
+integrations. The goal is to produce the clear, developer-friendly documentation
+that the official materials do not provide.
 
-## Why this repository exists
+## Why this exists
 
-Official E-IMZO materials are useful but often fragmented across manuals, API docs, demos, and operational notes. This repository consolidates that evidence into a clean-room, descriptive specification layer first. SDK implementation is planned, but it follows specification maturity.
+Official E-IMZO integration materials are fragmented across manuals, API docs,
+demos, and operational notes — and often incomplete or unclear. Developers
+integrating E-IMZO into real products regularly hit undocumented behavior, ambiguous
+error surfaces, and missing guidance for non-trivial flows.
 
-## Current focus
-
-- Phase 1 domain modeling and terminology normalization.
-- RFC drafting for integration flows, boundaries, and error surfaces.
-- Stabilizing repository structure, canonical documents, and review discipline.
+This repository consolidates observed integration behavior into a clean-room,
+descriptive specification layer. SDK implementation follows specification maturity —
+not the other way around.
 
 ## Repository layout
 
-- `docs/phases/` - phase-based analysis outputs.
-- `docs/rfc/` - RFC drafts and RFC index.
-- `docs/inventories/` - structured inventories (entities, operations, errors, gaps).
-- `docs/validation/` - conformance and validation planning.
-- `sdk/` - future SDK/reference implementation boundary.
-- `vendor/e-imzo-resources/` - source/evidence corpus (submodule area).
+| Path                       | Purpose                                                     |
+|----------------------------|-------------------------------------------------------------|
+| `docs/phases/`             | Phase-based analysis outputs                                |
+| `docs/rfc/`                | RFC drafts and RFC index                                    |
+| `docs/inventories/`        | Structured inventories (entities, operations, errors, gaps) |
+| `docs/validation/`         | Conformance and validation planning                         |
+| `sdk/`                     | Future SDK / reference implementation boundary              |
+| `vendor/e-imzo-resources/` | Source / evidence corpus (submodule)                        |
 
-## Canonical documents
+## Key documents
 
-- Phase 1 canonical document: [docs/phases/phase-1/canonical.md](docs/phases/phase-1/canonical.md)
-- RFC index: [docs/rfc/README.md](docs/rfc/README.md)
-- Agent/contributor rules: [AGENTS.md](AGENTS.md)
-- Project status snapshot: [STATUS.md](STATUS.md)
-- Project roadmap: [ROADMAP.md](ROADMAP.md)
+- **Phase 1 canonical:** [`docs/phases/phase-1/canonical.md`](./docs/phases/phase-1/canonical.md)
+- **RFC index:** [`docs/rfc/README.md`](./docs/rfc/README.md)
+- **Project status:** [`STATUS.md`](./STATUS.md)
+- **Roadmap:** [`ROADMAP.md`](./ROADMAP.md)
+- **Contributor / agent rules:** [`AGENTS.md`](./AGENTS.md)
+- **Disclaimer:** [`DISCLAIMER.md`](./DISCLAIMER.md)
 
 ## Current status
 
-The repository is in specification and RFC refinement stage. Core documents exist, but inventories, validation scaffolding, and SDK-facing boundaries are still being stabilized.
+Phase 1 domain modeling is complete and canonical. Six RFC drafts (RFC-0001 through RFC-0006) are in active review. Structured inventories (glossary, entities, errors) and an open-questions tracker (8 questions, 2 resolved editorially, 6 open) are in place. SDK boundaries under `sdk/` are not yet defined.
 
 ## Next steps
 
-- Stabilize Phase and RFC documents as canonical references.
-- Review RFC set for terminology and boundary consistency.
-- Expand inventories and validation/conformance artifacts.
-- Define a clear reference SDK boundary under `sdk/`.
+- Resolve open questions Q-003 through Q-008 in [`docs/validation/open-questions.md`](./docs/validation/open-questions.md).
+- Review RFC set for cross-RFC terminology and boundary consistency.
+- Define an initial reference boundary for `sdk/`.
+
+## Legal
+
+This is an independent community project. See [DISCLAIMER.md](./DISCLAIMER.md) and [LICENSE](./LICENSE).
