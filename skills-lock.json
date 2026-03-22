@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "e-imzo-guide": {
+      "source": "ezozbek36/e-imzo-resources",
+      "sourceType": "github",
+      "computedHash": "58eab883b0030f50e3d06b5fdbdb8cf9c2633f2403cb28d66902693e4177a7b2"
+    }
+  }
+}
