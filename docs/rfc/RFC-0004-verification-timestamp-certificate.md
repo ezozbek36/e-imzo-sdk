@@ -27,12 +27,12 @@
 
 ### Observed verification operations
 
-| Tag        | Operation                        | Plane                   | Notes                                                                                   |                                    |
-| ---------- | -------------------------------- | ----------------------- | --------------------------------------------------------------------------------------- | ---------------------------------- |
-| [OBSERVED] | `/backend/pkcs7/verify/attached` | Server REST             | Validates attached PKCS#7; returns `pkcs7Info` with signer/cert/time/timestamp details. |                                    |
-| [OBSERVED] | `/backend/pkcs7/verify/detached` | Server REST             | Detached variant; expects `data64\                                                      | pkcs7` payload style in docs/demo. |
-| [OBSERVED] | `/backend/mobile/verify`         | Server/mobile           | Final verification in mobile sign flow; returns cert + verification info.               |                                    |
-| [OBSERVED] | Local `pkcs7.verify_*` helpers   | Local (older snapshots) | Present in v4/v5 snapshots; deprecation/removal direction in newer notes/v6.            |                                    |
+| Tag        | Operation                        | Plane                   | Notes                                                                                   |
+| ---------- | -------------------------------- | ----------------------- | --------------------------------------------------------------------------------------- |
+| [OBSERVED] | `/backend/pkcs7/verify/attached` | Server REST             | Validates attached PKCS#7; returns `pkcs7Info` with signer/cert/time/timestamp details. |
+| [OBSERVED] | `/backend/pkcs7/verify/detached` | Server REST             | Detached variant; expects `data64|pkcs7` payload style in docs/demo.                    |
+| [OBSERVED] | `/backend/mobile/verify`         | Server/mobile           | Final verification in mobile sign flow; returns cert + verification info.               |
+| [OBSERVED] | Local `pkcs7.verify_*` helpers   | Local (older snapshots) | Present in v4/v5 snapshots; deprecation/removal direction in newer notes/v6.            |
 
 ### Timestamp-related operations
 

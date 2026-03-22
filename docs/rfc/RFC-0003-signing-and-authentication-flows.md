@@ -32,7 +32,7 @@
 | ---------- | --------------------------------------- | -------------------------------------------------------------------------------------- | ------- |
 | [OBSERVED] | Desktop challenge authentication        | `/frontend/challenge` -> local `create_pkcs7` -> `/backend/auth`.                      |         |
 | [OBSERVED] | Desktop document signing with timestamp | local `create_pkcs7` -> `/frontend/timestamp/pkcs7` -> `/backend/pkcs7/verify/*`.      |         |
-| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64\         | pkcs7`. |
+| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64|pkcs7`. |
 | [OBSERVED] | Multi-signer composition guidance       | `/frontend/pkcs7/join` documented in migration guidance for combining signed payloads. |         |
 
 ### Challenge-based authentication flow
@@ -69,7 +69,7 @@
 | Tag             | Distinction                 | Evidence                                                                                   |         |
 | --------------- | --------------------------- | ------------------------------------------------------------------------------------------ | ------- |
 | [OBSERVED]      | Attached                    | Verified via `/backend/pkcs7/verify/attached`; includes embedded document in result model. |         |
-| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64\            | pkcs7`. |
+| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64|pkcs7`. |
 | [OPEN QUESTION] | Detached sample consistency | Manual detached section has a conflicting curl URL example.                                |         |
 
 ### Flow diagrams in text form
