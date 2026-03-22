@@ -2,6 +2,11 @@
 
 This directory contains the initial Phase 2 RFC drafts derived from Phase 1 findings and repository evidence.
 
+Shared support documents live outside this directory:
+
+- [Glossary](../inventories/glossary.md)
+- [Open Questions](../validation/open-questions.md)
+
 ## RFC index
 
 - [RFC-0001 — Terminology and Architecture](./RFC-0001-terminology-and-architecture.md)

@@ -8,6 +8,24 @@
 
 [OBSERVED] Consolidate observed verification/timestamp/certificate-related operation semantics and local-vs-remote placement.
 
+## This RFC owns
+
+- verification semantics and verification-result framing
+- timestamp-related operation semantics
+- certificate-related result fields and local-vs-remote placement notes
+
+## This RFC does not own
+
+- cross-RFC terminology and actor/boundary framing (see [RFC-0001](./RFC-0001-terminology-and-architecture.md))
+- signing/auth choreography ownership (see [RFC-0003](./RFC-0003-signing-and-authentication-flows.md))
+- cross-cutting failure taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md))
+
+## See also
+
+- [RFC-0001 — Terminology and Architecture](./RFC-0001-terminology-and-architecture.md)
+- [RFC-0003 — Signing and Authentication Flows](./RFC-0003-signing-and-authentication-flows.md)
+- [RFC-0006 — Preliminary Error Model](./RFC-0006-preliminary-error-model.md)
+
 ## Non-goals
 
 - [OBSERVED] No claim of full PKI policy semantics beyond observed status/result fields.

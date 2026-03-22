@@ -8,6 +8,24 @@
 
 [OBSERVED] Describe the observable local bridge plane (local WebSocket endpoint + browser wrapper + plugin/module families) without restating it as a normative protocol standard.
 
+## This RFC owns
+
+- local runtime and localhost WebSocket endpoint framing
+- browser wrapper and plugin/module family distinctions
+- local surface drift and version-sensitive handle naming
+
+## This RFC does not own
+
+- cross-RFC terminology and system-boundary framing (see [RFC-0001](./RFC-0001-terminology-and-architecture.md))
+- signing/auth choreography beyond local placement (see [RFC-0003](./RFC-0003-signing-and-authentication-flows.md))
+- cross-cutting failure taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md))
+
+## See also
+
+- [RFC-0001 — Terminology and Architecture](./RFC-0001-terminology-and-architecture.md)
+- [RFC-0003 — Signing and Authentication Flows](./RFC-0003-signing-and-authentication-flows.md)
+- [RFC-0006 — Preliminary Error Model](./RFC-0006-preliminary-error-model.md)
+
 ## Non-goals
 
 - [OBSERVED] No plugin behavior guarantees beyond observed docs.

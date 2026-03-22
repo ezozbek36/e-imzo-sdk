@@ -8,6 +8,24 @@
 
 [OBSERVED] Organize observed failures across local bridge, server REST, mobile async flow, and operational environment; define a provisional editorial taxonomy for later validation work.
 
+## This RFC owns
+
+- cross-cutting failure framing across local, server, mobile, and operational layers
+- provisional error buckets used for editorial grouping
+- ambiguity notes about status-code and error-surface drift
+
+## This RFC does not own
+
+- primary operation semantics for local, signing, verification, or mobile flows
+- cross-RFC terminology ownership (see [RFC-0001](./RFC-0001-terminology-and-architecture.md))
+- final SDK/domain error taxonomy
+
+## See also
+
+- [RFC-0002 — Local Bridge / Local Crypto Service Surface](./RFC-0002-local-bridge.md)
+- [RFC-0004 — Verification, Timestamp, and Certificate-Related Operations](./RFC-0004-verification-timestamp-certificate.md)
+- [RFC-0005 — Mobile Flow](./RFC-0005-mobile-flow.md)
+
 ## Non-goals
 
 - [OBSERVED] No final universal error code schema.

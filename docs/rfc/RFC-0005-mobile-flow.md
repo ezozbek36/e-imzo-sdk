@@ -8,6 +8,24 @@
 
 [OBSERVED] Describe observed mobile ID-card async flow, actors, identifiers, and status lifecycle without inferring undocumented guarantees.
 
+## This RFC owns
+
+- mobile async lifecycle and polling/finalization flow descriptions
+- mobile-specific identifiers and status progression notes
+- mobile-state ambiguities that need separate validation
+
+## This RFC does not own
+
+- cross-RFC terminology and system-boundary framing (see [RFC-0001](./RFC-0001-terminology-and-architecture.md))
+- desktop signing/auth choreography outside the mobile branch (see [RFC-0003](./RFC-0003-signing-and-authentication-flows.md))
+- cross-cutting failure taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md))
+
+## See also
+
+- [RFC-0001 — Terminology and Architecture](./RFC-0001-terminology-and-architecture.md)
+- [RFC-0003 — Signing and Authentication Flows](./RFC-0003-signing-and-authentication-flows.md)
+- [RFC-0006 — Preliminary Error Model](./RFC-0006-preliminary-error-model.md)
+
 ## Non-goals
 
 - [OBSERVED] No redesign of deeplink or onboarding process.

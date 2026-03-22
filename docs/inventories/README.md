@@ -1,11 +1,9 @@
 # Inventories
 
-This area is reserved for structured inventories derived from repository evidence.
+This area contains shared inventories derived from repository evidence.
 
-Planned inventory artifacts:
-
-- source inventory
-- glossary / terminology map
-- entities inventory
-- capabilities inventory
-- error surface inventory
+- [glossary](./glossary.md)
+- [sources](./sources.md)
+- [capabilities](./capabilities.md)
+- [entities](./entities.md)
+- [errors](./errors.md)

@@ -8,6 +8,24 @@
 
 [OBSERVED] Describe observed signing/authentication choreography and handoff points between local signing, server verification, and backend decision logic.
 
+## This RFC owns
+
+- signing and authentication choreography
+- desktop/browser/backend/server handoff descriptions
+- challenge-based and document-sign flow narratives
+
+## This RFC does not own
+
+- cross-RFC terminology, actors, and system-boundary framing (see [RFC-0001](./RFC-0001-terminology-and-architecture.md))
+- detailed verification/timestamp/certificate semantics (see [RFC-0004](./RFC-0004-verification-timestamp-certificate.md))
+- cross-cutting failure taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md))
+
+## See also
+
+- [RFC-0001 — Terminology and Architecture](./RFC-0001-terminology-and-architecture.md)
+- [RFC-0002 — Local Bridge / Local Crypto Service Surface](./RFC-0002-local-bridge.md)
+- [RFC-0004 — Verification, Timestamp, and Certificate-Related Operations](./RFC-0004-verification-timestamp-certificate.md)
+
 ## Non-goals
 
 - [OBSERVED] No normative replay protection claims beyond documented status semantics.

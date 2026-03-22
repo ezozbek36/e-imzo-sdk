@@ -1,10 +1,13 @@
 # Validation
 
-This area is reserved for validation and conformance preparation.
+This area contains shared validation and conformance support notes.
 
-Planned artifacts:
+Current support artifact:
 
-- open questions register
+- [open questions register](./open-questions.md)
+
+Possible future additions:
+
 - assumptions-to-avoid register
 - conformance planning notes
 - validation observations and test-scenario drafts

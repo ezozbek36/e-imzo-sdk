@@ -8,6 +8,24 @@
 
 [OBSERVED] Establish shared terminology, actor/boundary framing, and a high-level architecture partition used by the RFC bundle. This partition is editorial and descriptive, not a final protocol or SDK contract.
 
+## This RFC owns
+
+- terminology framing across the RFC set
+- actors, trust boundaries, and system boundaries
+- the high-level editorial partition used by neighboring RFCs
+
+## This RFC does not own
+
+- local endpoint/module surface details (see [RFC-0002](./RFC-0002-local-bridge.md))
+- signing/auth choreography details (see [RFC-0003](./RFC-0003-signing-and-authentication-flows.md))
+- verification, timestamp, certificate, mobile, or error semantics in detail
+
+## See also
+
+- [RFC-0002 — Local Bridge / Local Crypto Service Surface](./RFC-0002-local-bridge.md)
+- [RFC-0005 — Mobile Flow](./RFC-0005-mobile-flow.md)
+- [RFC-0006 — Preliminary Error Model](./RFC-0006-preliminary-error-model.md)
+
 ## Non-goals
 
 - [OBSERVED] No protocol redesign.

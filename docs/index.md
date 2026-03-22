@@ -20,10 +20,12 @@
 ## Inventories
 
 - [Inventories README](./inventories/README.md)
+- [Glossary](./inventories/glossary.md)
 
 ## Validation
 
 - [Validation README](./validation/README.md)
+- [Open Questions](./validation/open-questions.md)
 
 ## SDK Area
 
