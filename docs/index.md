@@ -26,6 +26,7 @@
 
 - [Validation README](./validation/README.md)
 - [Open Questions](./validation/open-questions.md)
+- [Open Question Notes](./research/open-questions/README.md)
 
 ## SDK Area
 

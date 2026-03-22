@@ -2,26 +2,60 @@
 
 ## How to use this file
 
-- These are intentionally unresolved items extracted from the current RFC bundle.
-- They should not be silently normalized in future edits.
-- They may later move into validation notes, fixtures, compatibility matrices, or conformance work.
+- This file is the canonical tracker for unresolved questions in this repository.
+- Questions move through a small lifecycle so research progress stays visible.
+- A question is not closed only because a note exists; it closes only after the relevant repository artifacts are updated.
+- Focused research notes live under [`docs/research/open-questions/`](../research/open-questions/README.md).
 
-## Cross-RFC open questions
+## Status model
 
-| topic                                              | short description                                                                                                                                     | affected RFC(s)                                                                                                                                                                                 | why unresolved                                                                                               | suggested next validation step                                                                                        |
-|----------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| challenge vs challange equivalence                 | Sources use both spellings for the challenge field, and repository-wide equivalence is not yet treated as guaranteed.                                 | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                        | Manual, demo, and mobile materials do not present one fully stable naming convention.                        | Capture side-by-side fixtures from representative auth and mobile flows and compare field names by version.           |
-| pkcs7b64 vs pkcs7_64 equivalence                   | Similar-looking PKCS#7 base64 fields appear across local and server materials, but cross-version equivalence is still descriptive rather than proven. | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0002](../rfc/RFC-0002-local-bridge.md), [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md)                       | Local wrapper-facing outputs and server REST outputs use different names without a repository-wide contract. | Record local and server fixtures for the same signing flow and compare payload roles, not just field names.           |
-| one-vs-two mobile-side actors                      | Mobile sources may describe one deployed mobile component or two roles (`client` and `upload sender`).                                                | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                                         | Wording separates responsibilities, but deployment shape is not explicitly stabilized.                       | Trace a full mobile run and document whether signing and upload are distinguishable runtime actors.                   |
-| mobile upload callback authenticity/integrity      | The authenticity/integrity model for the mobile upload callback remains unclear in the current RFC set.                                               | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                                         | Sources describe the callback route and upload behavior but do not stabilize the callback protection model.  | Capture deployment guidance or working traces that show how upload callbacks are authenticated and integrity-checked. |
-| `/backend/mobile/authenticate` method mismatch     | Mobile materials point to a method mismatch for the authenticate-finalization route.                                                                  | [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                                                                                                      | Narrative and example artifacts do not agree on GET vs POST.                                                 | Run or inspect a representative demo/backend interaction and record the accepted method and response shape.           |
-| detached verify documentation conflict             | Detached verification documentation includes a conflicting endpoint example.                                                                          | [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md), [RFC-0004](../rfc/RFC-0004-verification-timestamp-certificate.md)                                                              | Manual section text and curl example are not fully aligned.                                                  | Validate attached and detached calls against the documented demo path and preserve the exact working fixture.         |
-| local-vs-server cryptographic responsibility split | The authoritative division of signing, timestamping, verification, and certificate-status work is not fully fixed across versions.                    | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md), [RFC-0004](../rfc/RFC-0004-verification-timestamp-certificate.md) | Sources show both legacy local helpers and server-preferred flows without a complete cross-version matrix.   | Build a version-by-version capability and responsibility matrix from `API.v-*`, manuals, and demo flows.              |
-| status-code semantics drift by version/deployment  | Numeric statuses appear stable in some areas but may drift by server version, deployment profile, or operational context.                             | [RFC-0005](../rfc/RFC-0005-mobile-flow.md), [RFC-0006](../rfc/RFC-0006-preliminary-error-model.md)                                                                                              | Some codes are generic, some map to operational causes, and validation coverage is incomplete.               | Collect fixture sets for success and failure paths across at least one older and one newer environment profile.       |
+- `open` — recorded, no focused research yet
+- `researching` — active investigation is in progress
+- `needs-evidence` — current materials are insufficient
+- `needs-validation` — a likely interpretation exists, but stronger validation is still needed
+- `resolved-editorially` — the repository now has a safe editorial treatment, even if system truth is not fully proven
+- `resolved-with-evidence` — the question is closed with sufficiently strong repository evidence
+- `deferred` — intentionally postponed
+- `wont-resolve-now` — not worth resolving at the current stage
+
+## Progress summary
+
+| status                   | count |
+| ------------------------ | ----- |
+| `open`                   | 8     |
+| `researching`            | 0     |
+| `needs-evidence`         | 0     |
+| `needs-validation`       | 0     |
+| `resolved-editorially`   | 0     |
+| `resolved-with-evidence` | 0     |
+| `deferred`               | 0     |
+| `wont-resolve-now`       | 0     |
+
+## Question tracker
+
+| ID      | question                                           | status | owner      | main artifact                                                                            | next step                                                              | resolution target                                                                                                                                                                   |
+| ------- | -------------------------------------------------- | ------ | ---------- |----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Q-001` | challenge vs challange equivalence                 | `open` | unassigned | [Q-001 note](../research/open-questions/Q-001-challenge-vs-challange.md)                 | Compare auth and mobile payload examples by version.                   | [Glossary](../inventories/glossary.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                                                  |
+| `Q-002` | pkcs7b64 vs pkcs7_64 equivalence                   | `open` | unassigned | [Q-002 note](../research/open-questions/Q-002-pkcs7b64-vs-pkcs7_64.md)                   | Compare local signing and server timestamp/verify payload roles.       | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0002](../rfc/RFC-0002-local-bridge.md), [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md)           |
+| `Q-003` | one-vs-two mobile-side actors                      | `open` | unassigned | [Q-003 note](../research/open-questions/Q-003-mobile-actors.md)                          | Extract actor statements from mobile sources into one comparison note. | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                             |
+| `Q-004` | mobile upload callback authenticity/integrity      | `open` | unassigned | [Q-004 note](../research/open-questions/Q-004-mobile-callback-authenticity-integrity.md) | Collect explicit callback protection evidence from current sources.    | [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                             |
+| `Q-005` | `/backend/mobile/authenticate` method mismatch     | `open` | unassigned | [Q-005 note](../research/open-questions/Q-005-mobile-authenticate-method-mismatch.md)    | Preserve conflicting method examples side by side.                     | [RFC-0005](../rfc/RFC-0005-mobile-flow.md)                                                                                                                                          |
+| `Q-006` | detached verify documentation conflict             | `open` | unassigned | [Q-006 note](../research/open-questions/Q-006-detached-verify-conflict.md)               | Preserve detached verify text and example conflict side by side.       | [RFC-0003](../rfc/RFC-0003-signing-and-authentication-flows.md), [RFC-0004](../rfc/RFC-0004-verification-timestamp-certificate.md)                                                  |
+| `Q-007` | local-vs-server cryptographic responsibility split | `open` | unassigned | [Q-007 note](../research/open-questions/Q-007-local-vs-server-crypto-responsibility.md)  | Build a version-sensitive responsibility matrix from current sources.  | [Phase 1 Canonical](../phases/phase-1/canonical.md), [RFC-0001](../rfc/RFC-0001-terminology-and-architecture.md), [RFC-0004](../rfc/RFC-0004-verification-timestamp-certificate.md) |
+| `Q-008` | status-code semantics drift by version/deployment  | `open` | unassigned | [Q-008 note](../research/open-questions/Q-008-status-code-semantics-drift.md)            | Compare status meanings across mobile and error-model materials.       | [Errors Inventory](../inventories/errors.md), [RFC-0005](../rfc/RFC-0005-mobile-flow.md), [RFC-0006](../rfc/RFC-0006-preliminary-error-model.md)                                    |
+
+## Closure rule
+
+Move a question to `resolved-editorially` or `resolved-with-evidence` only when all of the following are true:
+
+1. There is a research summary or equivalent evidence note.
+2. The repository records a clear conclusion.
+3. The target repository artifacts have been updated.
+4. This tracker reflects the result.
 
 ## Assumptions to avoid
 
-- Do not assume the current three-plane split is final source truth.
-- Do not assume server verification is universally authoritative in every deployment profile.
-- Do not assume the observed mobile lifecycle pattern is universal.
-- Do not assume provisional error buckets are the final SDK taxonomy.
+- Do not treat a likely interpretation as closed until the target artifacts are updated.
+- Do not silently normalize conflicting names, actors, endpoints, or status meanings.
+- Do not treat one research note as system truth when the broader repository still shows ambiguity.
+- Do not assume local/server/mobile boundaries are fully settled unless the evidence and target documents say so.

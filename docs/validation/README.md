@@ -2,9 +2,10 @@
 
 This area contains shared validation and conformance support notes.
 
-Current support artifact:
+Current support artifacts:
 
-- [open questions register](./open-questions.md)
+- [open questions tracker](./open-questions.md)
+- [open question research notes](../research/open-questions/README.md)
 
 Possible future additions:
 
