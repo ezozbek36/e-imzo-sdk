@@ -1,0 +1,3 @@
+[submodule "e-imzo-resources"]
+	path = e-imzo-resources
+	url = ./e-imzo-resources
