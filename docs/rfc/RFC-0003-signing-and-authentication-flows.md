@@ -67,13 +67,13 @@
 
 ### Artifacts produced/consumed
 
-| Tag             | Artifact                                     | Produced by                                                                | Consumed by                                                     |
-| --------------- | -------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [OBSERVED]      | Challenge field + `ttl`                      | `/frontend/challenge`                                                      | local signing call and `/backend/auth` validation path.         |
-| [OBSERVED]      | Local PKCS#7 (base64)                        | local `create_pkcs7`                                                       | `/backend/auth` or timestamp endpoint.                          |
-| [OBSERVED]      | Timestamped PKCS#7 (`pkcs7b64`)              | `/frontend/timestamp/pkcs7`                                                | verification endpoints and app archive logic in demo narrative. |
-| [OBSERVED]      | Verification result (`pkcs7Info`, statuses)  | `/backend/pkcs7/verify/*`                                                  | backend acceptance/rejection logic.                             |
-| [OPEN QUESTION] | Stable canonical field names in all versions | mixed docs/examples (`challenge`/`challange`, `pkcs7b64`/`pkcs7_64`, etc.) | unresolved normalization need.                                  |
+| Tag             | Artifact                                     | Produced by                                                                | Consumed by                                                                                                                                   |
+| --------------- | -------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| [OBSERVED]      | Challenge field + `ttl`                      | `/frontend/challenge`                                                      | local signing call and `/backend/auth` validation path.                                                                                       |
+| [OBSERVED]      | Local PKCS#7 (base64)                        | local `create_pkcs7`                                                       | `/backend/auth` or timestamp endpoint.                                                                                                        |
+| [OBSERVED]      | Timestamped PKCS#7 (`pkcs7b64`)              | `/frontend/timestamp/pkcs7`                                                | verification endpoints and app archive logic in demo narrative.                                                                               |
+| [OBSERVED]      | Verification result (`pkcs7Info`, statuses)  | `/backend/pkcs7/verify/*`                                                  | backend acceptance/rejection logic.                                                                                                           |
+| [OBSERVED]      | PKCS#7 base64 payload naming drift           | mixed docs/examples (`pkcs7`, `pkcs7b64`, `pkcs7_64`)                      | repository now uses editorial `PKCS#7 base64 payload` for the shared concept while preserving observed field names in concrete flow examples. |
 
 ### Boundaries between local signing and remote verification
 

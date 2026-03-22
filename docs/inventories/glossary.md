@@ -21,8 +21,9 @@
 | pfxId                    | local runtime                | One observed PFX-specific key-handle field name.                                                                                                  | `pfxId`                                                                | version-sensitive |
 | tokenId                  | local runtime                | One observed token-specific key-handle field name.                                                                                                | `tokenId`                                                              | version-sensitive |
 | ytksId                   | local runtime                | One observed YTKS-specific key-handle field name.                                                                                                 | `ytksId`                                                               | version-sensitive |
-| pkcs7b64                 | server REST                  | One observed base64 PKCS#7 field spelling shown in server-side timestamp and verification materials.                                              | `pkcs7b64`                                                             | version-sensitive |
-| pkcs7_64                 | local runtime                | One observed base64 PKCS#7 field spelling shown in local runtime responses and wrapper-facing examples.                                           | `pkcs7_64`                                                             | version-sensitive |
+| PKCS#7 base64 payload    | cross-layer                  | Editorial label for base64-encoded PKCS#7 material passed between local signing, server auth, timestamp, and verification-related flows. Preserve literal field names in concrete payload examples. | `pkcs7`, `pkcs7_64`, `pkcs7b64`                                        | preferred         |
+| pkcs7b64                 | server REST                  | Observed server-side field spelling for a base64 PKCS#7 payload in reviewed REST docs/examples and Java client materials.                        | `pkcs7b64`                                                             | source-variant    |
+| pkcs7_64                 | local runtime                | Observed local-runtime field/argument spelling for a base64 PKCS#7 payload in reviewed local API docs and wrapper-facing examples.              | `pkcs7_64`                                                             | source-variant    |
 | verification result      | server/mobile verification   | Editorial label for structured verification output returned by verification-oriented endpoints.                                                   | `pkcs7Info`, verification info, verify result                          | preferred         |
 | documentId               | mobile async                 | The observed mobile-flow correlation identifier used for polling and finalization.                                                                | mobile document id, `documentId`                                       | preferred         |
 | request id               | mobile async                 | Generic request-correlation label that may overlap with mobile identifiers in future evidence, but is not yet the repository-wide preferred term. | request identifier, requestId                                          | open              |
@@ -32,7 +33,7 @@
 ## Cross-RFC terminology watchlist
 
 - editorial `challenge` term vs observed `challange` source variant
-- `pkcs7b64` vs `pkcs7_64`
+- editorial `PKCS#7 base64 payload` term vs observed `pkcs7b64` / `pkcs7_64` source variants
 - generic `key handle` vs plugin-specific handle fields (`keyId`, `pfxId`, `tokenId`, `ytksId`)
 - `local runtime` vs `local WebSocket endpoint` vs `browser wrapper`
 - `status code` vs editorial `state`
