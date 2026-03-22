@@ -6,13 +6,15 @@
 
 ## Purpose
 
-[OBSERVED] Describe evidenced signing/authentication flows and boundaries between local signing and server/mobile verification.
+[OBSERVED] Describe observed signing/authentication choreography and handoff points between local signing, server verification, and backend decision logic.
 
 ## Non-goals
 
 - [OBSERVED] No normative replay protection claims beyond documented status semantics.
 - [OBSERVED] No cryptographic proof claims beyond endpoint/result fields.
 - [OBSERVED] No redesign of signing flow choreography.
+- [OBSERVED] No endpoint-level verification/timestamp semantics ownership (see [RFC-0004](./RFC-0004-verification-timestamp-certificate.md)).
+- [OBSERVED] No cross-plane error taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md)).
 
 ## Evidence base
 
@@ -28,12 +30,12 @@
 
 ### Signing-related flows evidenced by docs/demo
 
-| Tag        | Flow                                    | Evidence                                                                               |         |
-| ---------- | --------------------------------------- | -------------------------------------------------------------------------------------- | ------- |
-| [OBSERVED] | Desktop challenge authentication        | `/frontend/challenge` -> local `create_pkcs7` -> `/backend/auth`.                      |         |
-| [OBSERVED] | Desktop document signing with timestamp | local `create_pkcs7` -> `/frontend/timestamp/pkcs7` -> `/backend/pkcs7/verify/*`.      |         |
-| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64|pkcs7`. |
-| [OBSERVED] | Multi-signer composition guidance       | `/frontend/pkcs7/join` documented in migration guidance for combining signed payloads. |         |
+| Tag        | Flow                                    | Evidence                                                                               |
+| ---------- | --------------------------------------- | -------------------------------------------------------------------------------------- |
+| [OBSERVED] | Desktop challenge authentication        | `/frontend/challenge` -> local `create_pkcs7` -> `/backend/auth`.                      |
+| [OBSERVED] | Desktop document signing with timestamp | local `create_pkcs7` -> `/frontend/timestamp/pkcs7` -> `/backend/pkcs7/verify/*`.      |
+| [OBSERVED] | Attached vs detached verification paths | Demo toggles `attached` vs `detached` and posts either PKCS#7 only or `data64|pkcs7`.  |
+| [OBSERVED] | Multi-signer composition guidance       | `/frontend/pkcs7/join` documented in migration guidance for combining signed payloads. |
 
 ### Challenge-based authentication flow
 
@@ -47,13 +49,13 @@
 
 ### Artifacts produced/consumed
 
-| Tag             | Artifact                                     | Produced by                                        | Consumed by                                                     |
-| --------------- | -------------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------- |
-| [OBSERVED]      | `challenge` + `ttl`                          | `/frontend/challenge`                              | local signing call and `/backend/auth` validation path.         |
-| [OBSERVED]      | Local PKCS#7 (base64)                        | local `create_pkcs7`                               | `/backend/auth` or timestamp endpoint.                          |
-| [OBSERVED]      | Timestamped PKCS#7 (`pkcs7b64`)              | `/frontend/timestamp/pkcs7`                        | verification endpoints and app archive logic in demo narrative. |
-| [OBSERVED]      | Verification result (`pkcs7Info`, statuses)  | `/backend/pkcs7/verify/*`                          | backend acceptance/rejection logic.                             |
-| [OPEN QUESTION] | Stable canonical field names in all versions | mixed docs/examples (`pkcs7b64`, `pkcs7_64`, etc.) | unresolved normalization need.                                  |
+| Tag             | Artifact                                     | Produced by                                                                | Consumed by                                                     |
+| --------------- | -------------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [OBSERVED]      | Challenge field + `ttl`                      | `/frontend/challenge`                                                      | local signing call and `/backend/auth` validation path.         |
+| [OBSERVED]      | Local PKCS#7 (base64)                        | local `create_pkcs7`                                                       | `/backend/auth` or timestamp endpoint.                          |
+| [OBSERVED]      | Timestamped PKCS#7 (`pkcs7b64`)              | `/frontend/timestamp/pkcs7`                                                | verification endpoints and app archive logic in demo narrative. |
+| [OBSERVED]      | Verification result (`pkcs7Info`, statuses)  | `/backend/pkcs7/verify/*`                                                  | backend acceptance/rejection logic.                             |
+| [OPEN QUESTION] | Stable canonical field names in all versions | mixed docs/examples (`challenge`/`challange`, `pkcs7b64`/`pkcs7_64`, etc.) | unresolved normalization need.                                  |
 
 ### Boundaries between local signing and remote verification
 
@@ -64,13 +66,15 @@
 | [OBSERVED]      | Backend policy step                                             | Backend decides session/document acceptance based on status+payload.                     |
 | [OPEN QUESTION] | Full authoritative crypto-responsibility matrix across versions | not explicitly formalized in sources.                                                    |
 
+[OBSERVED] Endpoint-level verification/timestamp semantics are detailed in [RFC-0004](./RFC-0004-verification-timestamp-certificate.md); this RFC keeps only choreography-level placement.
+
 ### Attached/detached distinctions
 
-| Tag             | Distinction                 | Evidence                                                                                   |         |
-| --------------- | --------------------------- | ------------------------------------------------------------------------------------------ | ------- |
-| [OBSERVED]      | Attached                    | Verified via `/backend/pkcs7/verify/attached`; includes embedded document in result model. |         |
-| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64|pkcs7`. |
-| [OPEN QUESTION] | Detached sample consistency | Manual detached section has a conflicting curl URL example.                                |         |
+| Tag             | Distinction                 | Evidence                                                                                  |
+| --------------- | --------------------------- | ----------------------------------------------------------------------------------------- |
+| [OBSERVED]      | Attached                    | Verified via `/backend/pkcs7/verify/attached`; includes embedded document in result model.|
+| [OBSERVED]      | Detached                    | Verified via `/backend/pkcs7/verify/detached`; payload format includes `data64|pkcs7`.    |
+| [OPEN QUESTION] | Detached sample consistency | Manual detached section has a conflicting curl URL example.                               |
 
 ### Flow diagrams in text form
 
@@ -104,10 +108,10 @@ Result -> combined PKCS#7 with multiple signatures
 
 ### Proposed abstraction boundary
 
-| Tag                    | Boundary                                                                                                            |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| [PROPOSED ABSTRACTION] | Separate `AuthChallengeFlow` and `DocumentSignFlow` as distinct descriptive processes sharing local-sign primitive. |
-| [PROPOSED ABSTRACTION] | Model attached/detached as payload transport mode, not as separate cryptographic trust model.                       |
+| Tag                    | Boundary                                                                                                                                        |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| [PROPOSED ABSTRACTION] | Use editorial labels (`challenge-auth flow`, `document-sign flow`) to keep choreography readable; do not treat labels as finalized model names. |
+| [PROPOSED ABSTRACTION] | Model attached/detached as payload transport mode, not as separate cryptographic trust model.                                                   |
 
 ## Open questions
 
@@ -123,6 +127,7 @@ Result -> combined PKCS#7 with multiple signatures
 - [OPEN QUESTION] Assuming all flows must always include timestamping before verification.
 - [OPEN QUESTION] Assuming consistent TTL or challenge reuse policy beyond documented endpoint behavior.
 - [OPEN QUESTION] Assuming join flow semantics equal old local append methods one-to-one.
+- [OPEN QUESTION] Treating choreography-level flow labels as fixed architecture artifacts.
 
 ## Next validation steps
 

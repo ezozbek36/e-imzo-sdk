@@ -13,6 +13,7 @@
 - [OBSERVED] No redesign of deeplink or onboarding process.
 - [OBSERVED] No assertion of callback security guarantees not documented.
 - [OBSERVED] No mobile SDK design.
+- [OBSERVED] No cross-cutting error taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md)).
 
 ## Evidence base
 
@@ -36,15 +37,16 @@
 
 ### Observed mobile actors and identifiers
 
-| Tag        | Item                     | Description                                                                    |
-| ---------- | ------------------------ | ------------------------------------------------------------------------------ |
-| [OBSERVED] | Frontend app/site        | Initiates auth/sign, generates QR/deeplink payload, polls status.              |
-| [OBSERVED] | E-IMZO mobile app        | Consumes deeplink payload and triggers signature flow with ID-card.            |
-| [OBSERVED] | ID-CARD mobile subsystem | Uploads PKCS#7 to configured upload URL.                                       |
-| [OBSERVED] | App backend              | Calls `/backend/mobile/authenticate/{documentId}` or `/backend/mobile/verify`. |
-| [OBSERVED] | `siteId`                 | Correlates onboarding/site configuration.                                      |
-| [OBSERVED] | `documentId`             | Correlation key for polling/finalization.                                      |
-| [OBSERVED] | `challenge/challange`    | Auth signing input (spelling conflict exists).                                 |
+| Tag             | Item                                        | Description                                                                                                          |
+| --------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| [OBSERVED]      | Frontend app/site                           | Initiates auth/sign, generates QR/deeplink payload, polls status.                                                    |
+| [OBSERVED]      | Mobile signing client                       | Consumes deeplink/QR payload and triggers signature flow with ID-card on mobile side.                                |
+| [OBSERVED]      | Mobile upload callback sender               | Uploads PKCS#7 to configured upload URL.                                                                             |
+| [OPEN QUESTION] | Mobile actor split (`client` vs `uploader`) | Sources separate these responsibilities in wording, but may describe one deployed component path.                    |
+| [OBSERVED]      | App backend                                 | Calls `/backend/mobile/authenticate/{documentId}` or `/backend/mobile/verify`.                                       |
+| [OBSERVED]      | `siteId`                                    | Correlates onboarding/site configuration.                                                                            |
+| [OBSERVED]      | `documentId`                                | Correlation key for polling/finalization.                                                                            |
+| [OBSERVED]      | Challenge field (`challenge`/`challange`)   | Auth signing input; spelling conflict exists across sources.                                                         |
 
 ### Lifecycle/state transitions
 
@@ -65,6 +67,8 @@
 | [OBSERVED]      | Sign finalization        | Backend posts `{documentId, document(base64)}` to `/backend/mobile/verify`.                                           |
 | [OPEN QUESTION] | Authenticate HTTP method | Manual sequence references POST, method example uses GET.                                                             |
 
+[OBSERVED] Cross-plane failure categorization for mobile statuses and dependency faults is centralized in [RFC-0006](./RFC-0006-preliminary-error-model.md).
+
 ### Ambiguities and missing guarantees
 
 | Tag             | Ambiguity                                                                                      |
@@ -76,22 +80,24 @@
 
 ### Proposed abstraction boundary
 
-| Tag                    | Boundary                                                                                                          |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| [PROPOSED ABSTRACTION] | Model mobile flow as async two-phase process: `init + poll` then `backend finalize`.                              |
-| [PROPOSED ABSTRACTION] | Keep onboarding (`siteId` issuance, upload URL approval) as operational provisioning layer outside protocol flow. |
+| Tag                    | Boundary                                                                                                                            |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| [PROPOSED ABSTRACTION] | Treat `init -> poll -> backend finalize` as a recurring observed pattern in current docs/demo, not a universal lifecycle guarantee. |
+| [PROPOSED ABSTRACTION] | Keep onboarding (`siteId` issuance, upload URL approval) as operational provisioning layer outside protocol flow.                   |
 
 ## Open questions
 
 - [OPEN QUESTION] Which method is authoritative for `/backend/mobile/authenticate` (POST vs GET mismatch in manual artifacts)?
 - [OPEN QUESTION] How upload callback authenticity should be validated in integrator backends.
 - [OPEN QUESTION] Whether timeout/retry/backoff behavior has normative bounds beyond demo UX logic.
+- [OPEN QUESTION] Whether sources describe one mobile-side actor or two distinct actors for signing and upload.
 
 ## Risk of incorrect assumptions
 
 - [OPEN QUESTION] Treating polling timeout UI behavior from demo as protocol guarantee.
 - [OPEN QUESTION] Assuming one-to-one mapping between frontend-mobile and backend-mobile status domains.
 - [OPEN QUESTION] Assuming callback reachability errors (for example 499 reports) are protocol violations instead of deployment issues.
+- [OPEN QUESTION] Treating the observed `init -> poll -> finalize` lifecycle as mandatory in all integrations.
 
 ## Next validation steps
 

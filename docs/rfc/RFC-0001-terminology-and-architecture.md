@@ -6,7 +6,7 @@
 
 ## Purpose
 
-[OBSERVED] Establish a stable descriptive architecture vocabulary and boundary model across local desktop/WebSocket, server REST, and mobile flows.
+[OBSERVED] Establish shared terminology, actor/boundary framing, and a high-level architecture partition used by the RFC bundle. This partition is editorial and descriptive, not a final protocol or SDK contract.
 
 ## Non-goals
 
@@ -29,15 +29,16 @@
 
 ### Canonical terminology
 
-| Tag          | Canonical term               | Source aliases                           | Layer         | Notes                                                             |
-| ------------ | ---------------------------- | ---------------------------------------- | ------------- | ----------------------------------------------------------------- |
-| [NORMALIZED] | Local cryptapi service       | `/service/cryptapi`                      | Local         | WebSocket endpoint exposed on localhost by E-IMZO runtime.        |
-| [NORMALIZED] | Local bridge wrapper         | `CAPIWS`, `EIMZOEXT`                     | Local         | Browser JS wrapper for local calls.                               |
-| [NORMALIZED] | Frontend endpoint family     | `/frontend/*`                            | Server        | Documented as callable from frontend/backend depending on method. |
-| [NORMALIZED] | Backend endpoint family      | `/backend/*`                             | Server        | Documented as backend-only by policy.                             |
-| [NORMALIZED] | Mobile upload callback route | `/frontend/mobile/upload` (`UPLOAD URL`) | Mobile/server | Callback route associated with onboarding `SiteID`.               |
-| [NORMALIZED] | Challenge value              | `challenge`, `challange`                 | Server/mobile | Spelling is inconsistent in source materials.                     |
-| [NORMALIZED] | Local key handle             | `keyId`, `pfxId`, `tokenId`, `ytksId`    | Local         | Handle naming is plugin/version-specific.                         |
+| Tag             | Canonical term                  | Source aliases                           | Layer         | Notes                                                                                           |
+| --------------- | ------------------------------- | ---------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------- |
+| [NORMALIZED]    | Local WebSocket endpoint        | `/service/cryptapi`                      | Local         | Endpoint exposed on localhost by local E-IMZO runtime.                                          |
+| [NORMALIZED]    | Local bridge wrapper            | `CAPIWS`, `EIMZOEXT`                     | Local         | Browser-side JS wrapper used to call local endpoint/modules.                                    |
+| [NORMALIZED]    | Frontend endpoint family        | `/frontend/*`                            | Server        | Documented as callable from frontend/backend depending on method.                               |
+| [NORMALIZED]    | Backend endpoint family         | `/backend/*`                             | Server        | Documented as backend-only by policy.                                                           |
+| [NORMALIZED]    | Mobile upload callback route    | `/frontend/mobile/upload` (`UPLOAD URL`) | Mobile/server | Callback route associated with onboarding `siteId`/`SiteID`.                                    |
+| [NORMALIZED]    | Challenge field                 | `challenge`, `challange`                 | Server/mobile | Spelling is inconsistent in source materials; this RFC set keeps both spellings visible.        |
+| [NORMALIZED]    | Local key handle field variants | `keyId`, `pfxId`, `tokenId`, `ytksId`    | Local         | Field naming is plugin/version-specific; equivalence is treated as observed-but-non-uniform.    |
+| [OPEN QUESTION] | PKCS#7 base64 field variants    | `pkcs7b64`, `pkcs7_64`                   | Cross-plane   | Similar intent appears in sources, but canonical equivalence across all versions is not proven. |
 
 ### Actors
 
@@ -48,7 +49,7 @@
 | [OBSERVED] | Local E-IMZO runtime               | Provides plugin methods via localhost WebSocket.                           |
 | [OBSERVED] | Application backend                | Calls `/backend/*`; handles app session/business logic.                    |
 | [OBSERVED] | E-IMZO-SERVER                      | REST surface for challenge/auth/verify/timestamp/mobile endpoints.         |
-| [OBSERVED] | ID-CARD mobile app/system          | Consumes deeplink/QR payload and posts signed data via mobile upload flow. |
+| [OBSERVED] | Mobile-side signing/upload path    | Consumes deeplink/QR payload and posts signed data via mobile upload flow. |
 | [OBSERVED] | VPN/OCSP/TSA external dependencies | Used by server during certificate/timestamp related checks.                |
 
 ### Trust boundaries
@@ -65,34 +66,27 @@
 
 | Tag             | System                            | In scope                                                             |
 | --------------- | --------------------------------- | -------------------------------------------------------------------- |
-| [OBSERVED]      | Local desktop/WebSocket subsystem | `CAPIWS` wrapper behavior and plugin method inventory.               |
+| [OBSERVED]      | Local bridge plane                | Local bridge wrapper behavior and plugin/module method inventory.    |
 | [OBSERVED]      | Server REST subsystem             | `/frontend/*`, `/backend/*`, `/ping`, `/info`, status tables.        |
 | [OBSERVED]      | Mobile/deeplink subsystem         | `/frontend/mobile/*`, polling, upload callback, `/backend/mobile/*`. |
 | [OPEN QUESTION] | Internal state internals          | Redis record model and retention rules are not fully specified.      |
 
-### Observed subsystems and integration surfaces
+### RFC ownership map (high-level)
 
-| Tag        | Subsystem   | Integration surfaces                                                                                                                                      |
-| ---------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [OBSERVED] | Local       | `ws://127.0.0.1:64646/service/cryptapi`, `wss://127.0.0.1:64443/service/cryptapi`, `version`, `apidoc`, `apikey`, plugin calls.                           |
-| [OBSERVED] | Server REST | `/frontend/challenge`, `/backend/auth`, `/frontend/timestamp/pkcs7`, `/backend/pkcs7/verify/{attached,detached}`, `/frontend/pkcs7/{join,make-attached}`. |
-| [OBSERVED] | Mobile REST | `/frontend/mobile/{auth,sign,status,upload}`, `/backend/mobile/{authenticate/{documentId},verify}`.                                                       |
-| [OBSERVED] | Operational | Reverse proxy routing, Redis settings, VPN key/config, host/IP forwarding.                                                                                |
-
-### High-level sequence summaries
-
-| Tag        | Sequence                      | Summary                                                                                                                          |
-| ---------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| [OBSERVED] | Desktop authentication        | Browser gets challenge, local signs challenge, backend calls `/backend/auth`, app establishes session.                           |
-| [OBSERVED] | Desktop signing               | Browser signs document locally, calls `/frontend/timestamp/pkcs7`, backend verifies via `/backend/pkcs7/verify/*`.               |
-| [OBSERVED] | Mobile authentication/signing | Frontend requests mobile init, polls `/frontend/mobile/status`, mobile upload occurs, backend finalizes via `/backend/mobile/*`. |
+| Tag        | Area                                         | Primary RFC owner                                             | Notes                                                                                 |
+| ---------- | -------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| [OBSERVED] | Local endpoint/module surface and drift      | [RFC-0002](./RFC-0002-local-bridge.md)                        | Includes local WebSocket endpoint behavior, wrapper calls, and module/version drift.  |
+| [OBSERVED] | Signing/auth choreography                    | [RFC-0003](./RFC-0003-signing-and-authentication-flows.md)    | Includes challenge/auth and desktop signing sequence narratives.                      |
+| [OBSERVED] | Verification/timestamp/certificate semantics | [RFC-0004](./RFC-0004-verification-timestamp-certificate.md)  | Keeps operation semantics and local-vs-remote placement notes.                        |
+| [OBSERVED] | Mobile async lifecycle                       | [RFC-0005](./RFC-0005-mobile-flow.md)                         | Covers status transitions, polling, and mobile finalize paths.                        |
+| [OBSERVED] | Cross-cutting failure framing                | [RFC-0006](./RFC-0006-preliminary-error-model.md)             | Main place for provisional error taxonomy and failure-layer categorization.           |
 
 ### Proposed abstraction boundary
 
-| Tag                    | Boundary                                                                                                                     |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| [PROPOSED ABSTRACTION] | Treat three integration planes as separate contracts: `LocalBridgeContract`, `ServerRestContract`, `MobileAsyncContract`.    |
-| [PROPOSED ABSTRACTION] | Keep operational prerequisites (VPN/Redis/proxy/API-key domain registration) as environment profile, not protocol semantics. |
+| Tag                    | Boundary                                                                                                                                 |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [PROPOSED ABSTRACTION] | Use three planes (`local bridge`, `server REST`, `mobile async`) as editorial partition for this RFC bundle; treat this as provisional.  |
+| [PROPOSED ABSTRACTION] | Keep operational prerequisites (VPN/Redis/proxy/API-key domain registration) in environment framing, not core protocol semantics.        |
 
 ## Open questions
 
@@ -100,14 +94,17 @@
 | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [OPEN QUESTION] | How `/backend/*` caller isolation is enforced in real deployments (policy is documented; enforcement mechanism is partially externalized to proxy config). |
 | [OPEN QUESTION] | Exact callback authenticity/integrity model for `/frontend/mobile/upload`.                                                                                 |
+| [OPEN QUESTION] | Whether mobile-side signing and upload roles are one actor or two distinct actors across deployments (see RFC-0005 detail).                                |
 | [OPEN QUESTION] | Cross-version compatibility guarantees for local plugin families and handle naming stability.                                                              |
 | [OPEN QUESTION] | Complete responsibility split for cryptographic validation between local and server layers across versions.                                                |
+| [OPEN QUESTION] | Whether the current three-plane partition remains the best organizing model after more cross-version evidence is collected.                                |
 
 ## Risk of incorrect assumptions
 
 - [OPEN QUESTION] Assuming manual API-key bootstrap is universal despite v6 auto-load notes.
 - [OPEN QUESTION] Assuming one uniform challenge field spelling and shape.
 - [OPEN QUESTION] Assuming local plugin surfaces are stable across app versions.
+- [OPEN QUESTION] Treating the current RFC partition as fixed architecture rather than editorial organization.
 
 ## Next validation steps
 

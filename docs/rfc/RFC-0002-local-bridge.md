@@ -6,7 +6,7 @@
 
 ## Purpose
 
-[OBSERVED] Describe the observable local WebSocket bridge and plugin surface without restating it as a normative protocol standard.
+[OBSERVED] Describe the observable local bridge plane (local WebSocket endpoint + browser wrapper + plugin/module families) without restating it as a normative protocol standard.
 
 ## Non-goals
 
@@ -28,19 +28,20 @@
 
 ### Scope
 
-| Tag        | Covered                                                                                               |
-| ---------- | ----------------------------------------------------------------------------------------------------- |
-| [OBSERVED] | Browser-to-local websocket invocation surface (`version`, `apidoc`, `apikey`, plugin function calls). |
-| [OBSERVED] | Local module family inventory and version drift.                                                      |
-| [OBSERVED] | Local key-handle loading/unloading behavior and observed assumptions.                                 |
-| [OBSERVED] | Local runtime failure modes at connection and call level.                                             |
+| Tag        | Covered                                                                                                        |
+| ---------- | -------------------------------------------------------------------------------------------------------------- |
+| [OBSERVED] | Browser-to-local WebSocket endpoint invocation surface (`version`, `apidoc`, `apikey`, plugin function calls). |
+| [OBSERVED] | Local module family inventory and version drift.                                                               |
+| [OBSERVED] | Local key-handle loading/unloading behavior and observed assumptions.                                          |
+| [OBSERVED] | Local runtime failure modes at connection and call level.                                                      |
 
 ### What this RFC excludes
 
-| Tag        | Excluded                                                                             |
-| ---------- | ------------------------------------------------------------------------------------ |
-| [OBSERVED] | Server REST semantics and business session logic.                                    |
-| [OBSERVED] | Mobile backend verification semantics except where they constrain local assumptions. |
+| Tag        | Excluded                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| [OBSERVED] | Server REST semantics and business session logic.                                                 |
+| [OBSERVED] | Mobile lifecycle semantics except where they constrain local assumptions.                         |
+| [OBSERVED] | Cross-cutting failure taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md)). |
 
 ### Observed API families/modules
 
@@ -57,13 +58,14 @@
 
 ### Request/response surface at descriptive level
 
-| Tag             | Aspect                 | Observed shape                                                                                            |
-| --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------- |
-| [OBSERVED]      | Transport              | WebSocket to localhost endpoint chosen by page protocol (`ws` or `wss`).                                  |
-| [OBSERVED]      | Generic request        | JSON object with function name and optional plugin+arguments (wrapper-driven).                            |
-| [OBSERVED]      | Meta requests          | `{name:"version"}`, `{name:"apidoc"}`, `{name:"apikey", arguments:[domain,key,...]}`.                     |
-| [OBSERVED]      | Typical success model  | Response objects with `success` plus function-specific fields (e.g., `major/minor`, `pkcs7_64`, `keyId`). |
-| [OPEN QUESTION] | Canonical error schema | Not unified in source; observed as `reason` and websocket close codes in wrapper/demo logic.              |
+| Tag             | Aspect                  | Observed shape                                                                                            |
+| --------------- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| [OBSERVED]      | Transport               | WebSocket to localhost endpoint chosen by page protocol (`ws` or `wss`).                                  |
+| [OBSERVED]      | Generic request         | JSON object with function name and optional plugin+arguments (wrapper-driven).                            |
+| [OBSERVED]      | Meta requests           | `{name:"version"}`, `{name:"apidoc"}`, `{name:"apikey", arguments:[domain,key,...]}`.                     |
+| [OBSERVED]      | Typical success model   | Response objects with `success` plus function-specific fields (e.g., `major/minor`, `pkcs7_64`, `keyId`). |
+| [OPEN QUESTION] | Cross-plane field drift | Similar payload roles may use different field names (`pkcs7_64` local vs `pkcs7b64` server).              |
+| [OPEN QUESTION] | Canonical error schema  | Not unified in source; observed as `reason` and websocket close codes in wrapper/demo logic.              |
 
 ### Handle/key loading behavior
 
@@ -79,7 +81,7 @@
 
 | Tag             | Observation                                                                               |
 | --------------- | ----------------------------------------------------------------------------------------- |
-| [OBSERVED]      | Local service must be installed and reachable on localhost websocket endpoint.            |
+| [OBSERVED]      | Local E-IMZO runtime must be installed and reachable on localhost WebSocket endpoint.     |
 | [OBSERVED]      | Browser websocket support is treated as prerequisite by demo init code.                   |
 | [OBSERVED]      | API-key domain setup is shown as bootstrap in manual/demo; v6 notes add auto-load nuance. |
 | [OPEN QUESTION] | Runtime reconnection/backoff contract is not standardized in provided sources.            |
@@ -103,12 +105,14 @@
 | [OBSERVED]      | Secret-entry failures                                                    | Wrong password patterns handled in demo (`BadPaddingException` text branch). |
 | [OPEN QUESTION] | Deterministic mapping from low-level local errors to stable error codes. |                                                                              |
 
+[OBSERVED] Cross-plane error categorization and taxonomy ownership is centralized in [RFC-0006](./RFC-0006-preliminary-error-model.md).
+
 ### Proposed abstraction boundary
 
-| Tag                    | Boundary                                                                                                                                              |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [PROPOSED ABSTRACTION] | Define a descriptive `LocalBridgeEnvelope` (`transport`, `request`, `response`, `runtime_error`) without asserting stable method set across versions. |
-| [PROPOSED ABSTRACTION] | Treat plugin families as versioned capability flags, not hardcoded invariants.                                                                        |
+| Tag                    | Boundary                                                                                                                                                                          |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [PROPOSED ABSTRACTION] | Use an observed local request/response envelope (`transport`, `request`, `response`, `runtime_error`) as editorial structure without asserting stable method set across versions. |
+| [PROPOSED ABSTRACTION] | Treat plugin families as versioned capability flags, not hardcoded invariants.                                                                                                    |
 
 ## Open questions
 
@@ -121,6 +125,7 @@
 - [OPEN QUESTION] Assuming v5 plugin set on v6 installations.
 - [OPEN QUESTION] Assuming every response has same field contract.
 - [OPEN QUESTION] Assuming helper methods marked deprecated still execute in target installations.
+- [OPEN QUESTION] Assuming local and server payload field names are canonicalized one-to-one.
 
 ## Next validation steps
 

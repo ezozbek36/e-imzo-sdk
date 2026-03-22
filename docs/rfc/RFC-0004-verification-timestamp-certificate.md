@@ -6,13 +6,14 @@
 
 ## Purpose
 
-[OBSERVED] Consolidate observed verification/timestamp/certificate-related operations and clarify local-vs-remote operational placement.
+[OBSERVED] Consolidate observed verification/timestamp/certificate-related operation semantics and local-vs-remote placement.
 
 ## Non-goals
 
 - [OBSERVED] No claim of full PKI policy semantics beyond observed status/result fields.
 - [OBSERVED] No independent trust model redesign.
 - [OBSERVED] No cryptographic algorithm validation claims.
+- [OBSERVED] No cross-cutting error taxonomy ownership (see [RFC-0006](./RFC-0006-preliminary-error-model.md)).
 
 ## Evidence base
 
@@ -60,14 +61,15 @@
 | [OBSERVED]      | Certificate result materialization                | partly local via helper plugins      | rich structured server responses                          |
 | [OPEN QUESTION] | definitive authority in mixed-version deployments | unclear                              | unclear                                                   |
 
-### Operational dependencies if evidenced
+### Operational prerequisites relevant to verification semantics
 
-| Tag        | Dependency                             | Where it appears                                  |
-| ---------- | -------------------------------------- | ------------------------------------------------- |
-| [OBSERVED] | VPN connectivity/key material          | server launch/config and troubleshooting sections |
-| [OBSERVED] | `Host` and `X-Real-IP` forwarding      | endpoint docs and demo backend relays             |
-| [OBSERVED] | Redis for clustered/mobile state paths | server config and mobile status codes             |
-| [OBSERVED] | CA material updates (`jar`/`lib`)      | migration + troubleshooting notes                 |
+| Tag        | Prerequisite                      | Why it matters here                                                             |
+| ---------- | --------------------------------- | ------------------------------------------------------------------------------- |
+| [OBSERVED] | `Host` and `X-Real-IP` forwarding | Required request context called out in endpoint docs/demo relay behavior.       |
+| [OBSERVED] | CA/timestamp infrastructure state | Affects verification/timestamp outputs visible in response payloads.            |
+| [OBSERVED] | VPN/connectivity dependencies     | Required for upstream status/timestamp checks referenced by verification flows. |
+
+[OBSERVED] Detailed failure categorization for these prerequisites (transport vs validation vs operational) is maintained in [RFC-0006](./RFC-0006-preliminary-error-model.md).
 
 ### What is explicitly unclear
 
@@ -79,10 +81,10 @@
 
 ### Proposed abstraction boundary
 
-| Tag                    | Boundary                                                                                                            |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| [PROPOSED ABSTRACTION] | Treat server verification outputs as canonical verification artifact for app decisions in current recommended flow. |
-| [PROPOSED ABSTRACTION] | Keep local certificate helper capabilities as optional/versioned extension plane, not baseline contract.            |
+| Tag                    | Boundary                                                                                                                               |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| [PROPOSED ABSTRACTION] | Treat server verification outputs as an observed primary decision input in documented/demo flows, not a universal authority guarantee. |
+| [PROPOSED ABSTRACTION] | Treat local certificate helper capabilities as version-sensitive extension behavior, not baseline contract.                            |
 
 ## Open questions
 
@@ -95,6 +97,7 @@
 - [OPEN QUESTION] Assuming local helper deprecations imply universal absence in all installed clients.
 - [OPEN QUESTION] Assuming all verify responses always contain identical nested fields.
 - [OPEN QUESTION] Assuming truststore plugin behavior is equivalent to server trust configuration.
+- [OPEN QUESTION] Assuming server verification is always the authoritative path in every deployment profile.
 
 ## Next validation steps
 
