@@ -1,3 +1,8 @@
+> [!WARNING]
+> **Independent community project.** Not affiliated with, endorsed by, or associated
+> with YT LLC (`yt.uz`) or any official E-IMZO authority.
+> See [DISCLAIMER.md](./DISCLAIMER.md) for full details.
+
 # e-imzo-sdk
 
 `e-imzo-sdk` is a specification-first repository for documenting observed E-IMZO integration behavior and preparing a stable foundation for future SDK implementations. The repository name is intentional: the SDK is the destination, while this phase focuses on building the specification layer first.

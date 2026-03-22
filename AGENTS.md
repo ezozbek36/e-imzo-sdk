@@ -1,5 +1,9 @@
 # AGENTS.md
 
+> [!NOTE]
+> **Independent community project.** This repository has no affiliation with YT LLC
+> (`yt.uz`) or any official E-IMZO authority. See [DISCLAIMER.md](./DISCLAIMER.md).
+
 ## Project
 
 This repository supports a clean-room documentation and specification effort for E-IMZO integrations.
